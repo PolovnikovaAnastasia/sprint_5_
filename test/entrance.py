@@ -1,170 +1,96 @@
-from selenium.webdriver.common.by import By
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support import expected_conditions as EC
+from locators_web import *
+import pytest
 
+@pytest.fixture(scope="module")
+def driver():
+    driver = webdriver.Firefox()
+    driver.maximize_window()
+    driver.get('https://stellarburgers.nomoreparties.site/')
+    yield driver
+    driver.quit()
 
 # ошибка с неккоректным паролем
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.LINK_TEXT, "Личный Кабинет")
-cabinet.click()
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.LINK_TEXT, "Зарегистрироваться")))
-registration = (driver.find_element(By.LINK_TEXT, "Зарегистрироваться"))
-registration.click()
-name = (driver.find_element(By.XPATH, ".//body//form//fieldset[1]//input"))
-name.send_keys("Анастасия")
-email = driver.find_element(By.XPATH, ".//body//form//fieldset[2]//input")
-email.send_keys("polov1234567891011@yandex.ru")
-password = driver.find_element(By.XPATH, ".//body//form//fieldset[3]//input")
-password.send_keys("12345")
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "button_button__33qZ0")))
-entrance = (driver.find_element(By.CLASS_NAME, "button_button__33qZ0"))
-entrance.click()
-name.clear()
-email.clear()
-password.clear()
-name.send_keys("Анастасия")
-email.send_keys("polov1234567891011@yandex.ru")
-password.send_keys("123456")
-entrance.click()
-driver.quit()
+def test_registration_form_no_correctly_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.registration).click()
+    driver.find_element(*MainPage.name).send_keys("Анастасия")
+    driver.find_element(*MainPage.email).send_keys("polovnikova123@yandex.ru")
+    driver.find_element(*MainPage.password).send_keys("12345")
+    driver.find_element(*MainPage.entrance).click()
+    assert True
 
 # успешная регистрация
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.LINK_TEXT, "Личный Кабинет")
-cabinet.click()
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.LINK_TEXT, "Зарегистрироваться")))
-registration = (driver.find_element(By.LINK_TEXT, "Зарегистрироваться"))
-registration.click()
-driver.find_element(By.XPATH, ".//body//form//fieldset[1]//input").send_keys("Анастасия")
-driver.find_element(By.XPATH, ".//body//form//fieldset[2]//input").send_keys("polov12345678910@yandex.ru")
-driver.find_element(By.XPATH, ".//body//form//fieldset[3]//input").send_keys("123456")
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "button_button__33qZ0")))
-entrance = (driver.find_element(By.CLASS_NAME, "button_button__33qZ0"))
-entrance.click()
-driver.quit()
+def test_registration_form_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.registration).click()
+    driver.find_element(*MainPage.name).send_keys("Анастасия")
+    driver.find_element(*MainPage.email).send_keys("polovnikova123@yandex.ru")
+    driver.find_element(*MainPage.password).send_keys("123456")
+    driver.find_element(*MainPage.entrance).click()
+    assert True
 
 # вход по кнопке «Войти в аккаунт» на главной
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-entrances = driver.find_element(By.XPATH, ".//body//main//section[2]//button")
-entrances.click()
-email = driver.find_element(By.XPATH, ".//body//form//fieldset[1]//input")
-email.send_keys("polov12345@yandex.ru")
-password = driver.find_element(By.XPATH, ".//body//form//fieldset[2]//input")
-password.send_keys("123456")
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "button_button__33qZ0")))
-authorization = (driver.find_element(By.CLASS_NAME, "button_button__33qZ0"))
-authorization.click()
-driver.quit()
+def test_entrances_true(driver):
+    driver.find_element(*MainPage.entrances).click()
+    driver.find_element(*MainPage.email1).send_keys("polov12345@yandex.ru")
+    driver.find_element(*MainPage.password1).send_keys("123456")
+    driver.find_element(*MainPage.authorization).click()
+    assert True
 
 # вход через кнопку «Личный кабинет»
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.LINK_TEXT, "Личный Кабинет")
-cabinet.click()
-email = driver.find_element(By.XPATH, ".//body//form//fieldset[1]//input")
-email.send_keys("polov12345@yandex.ru")
-password = driver.find_element(By.XPATH, ".//body//form//fieldset[2]//input")
-password.send_keys("123456")
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "button_button__33qZ0")))
-authorization = (driver.find_element(By.CLASS_NAME, "button_button__33qZ0"))
-authorization.click()
-driver.quit()
+def test_lk_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.email1).send_keys("polov12345@yandex.ru")
+    driver.find_element(*MainPage.password1).send_keys("123456")
+    driver.find_element(*MainPage.authorization).click()
+    assert True
 
 # вход через кнопку в форме регистрации
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.LINK_TEXT, "Личный Кабинет")
-cabinet.click()
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.LINK_TEXT, "Зарегистрироваться")))
-registration = (driver.find_element(By.LINK_TEXT, "Зарегистрироваться"))
-registration.click()
-entrance = (driver.find_element(By.CLASS_NAME, "Auth_link__1fOlj"))
-entrance.click()
-email = driver.find_element(By.XPATH, ".//body//form//fieldset[1]//input")
-email.send_keys("polov12345@yandex.ru")
-password = driver.find_element(By.XPATH, ".//body//form//fieldset[2]//input")
-password.send_keys("123456")
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "button_button__33qZ0")))
-authorization = (driver.find_element(By.CLASS_NAME, "button_button__33qZ0"))
-authorization.click()
-driver.quit()
+def test_etrances_reg_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.registration).click()
+    driver.find_element(*MainPage.entrances).click()
+    driver.find_element(*MainPage.email1).send_keys("polov12345@yandex.ru")
+    driver.find_element(*MainPage.password1).send_keys("123456")
+    driver.find_element(*MainPage.authorization).click()
+    assert True
 
 # вход через кнопку в форме восстановления пароля
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.LINK_TEXT, "Личный Кабинет")
-cabinet.click()
-restore = (driver.find_element(By.LINK_TEXT, "Восстановить пароль"))
-restore.click()
-entrance = (driver.find_element(By.CLASS_NAME, "Auth_link__1fOlj"))
-entrance.click()
-email = driver.find_element(By.XPATH, ".//body//form//fieldset[1]//input")
-email.send_keys("polov12345@yandex.ru")
-password = driver.find_element(By.XPATH, ".//body//form//fieldset[2]//input")
-password.send_keys("123456")
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "button_button__33qZ0")))
-authorization = (driver.find_element(By.CLASS_NAME, "button_button__33qZ0"))
-authorization.click()
-driver.quit()
+def test_restore_reg_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.restore).click()
+    driver.find_element(*MainPage.entrancesss).click()
+    driver.find_element(*MainPage.email1).send_keys("polov12345@yandex.ru")
+    driver.find_element(*MainPage.password1).send_keys("123456")
+    driver.find_element(*MainPage.authorization).click()
+    assert True
 
 # переход в личный кабинет
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.LINK_TEXT, "Личный Кабинет")
-cabinet.click()
-driver.quit()
+def test_lk1_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    assert True
 
 # переход из личного кабинета в конструктор
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.LINK_TEXT, "Личный Кабинет")
-cabinet.click()
-designer = driver.find_element(By.LINK_TEXT, "Конструктор")
-designer.click()
-cabinet.click()
-logo = driver.find_element(By.CLASS_NAME, "AppHeader_header__logo__2D0X2")
-logo.click()
-driver.quit()
+def test_lk_in_designer_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.designer).click()
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.logo).click()
+    assert True
 
 # переходы к разделам:«Булки»,«Соусы»,«Начинки»
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-sauces = driver.find_element(By.XPATH, ".//body//main//section[1]//div[1]")
-fillings = driver.find_element(By.XPATH, ".//body//main//section[1]//div[3]")
-sauces.click()
-fillings.click()
-driver.quit()
+def test_feat_true(driver):
+    driver.find_element(*MainPage.sauces).click()
+    driver.find_element(*MainPage.fillings).click()
+    assert True
 
 # выход из аккаунта
-driver = webdriver.Firefox()
-driver.maximize_window()
-driver.get('https://stellarburgers.nomoreparties.site/')
-cabinet = driver.find_element(By.XPATH, ".//body//header//nav/a")
-cabinet.click()
-email = driver.find_element(By.XPATH, ".//body//form//fieldset[1]//input")
-email.send_keys("polov12345@yandex.ru")
-password = driver.find_element(By.XPATH, ".//body//form//fieldset[2]//input")
-password.send_keys("123456")
-WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "button_button__33qZ0")))
-authorization = (driver.find_element(By.CLASS_NAME, "button_button__33qZ0"))
-authorization.click()
-WebDriverWait(driver, 20).until(expected_conditions.element_to_be_clickable((By.XPATH, ".//body//header//nav/a")))
-WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, ".//body//header//nav/a")))
-cabinet_authorization = (driver.find_element(By.LINK_TEXT, "Личный Кабинет"))
-driver.execute_script("arguments[0].click();", cabinet_authorization)
-WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.Account_button__14Yp3'))).click()
-driver.quit()
+def test_exit_true(driver):
+    driver.find_element(*MainPage.cabinet).click()
+    driver.find_element(*MainPage.email1).send_keys("polov12345@yandex.ru")
+    driver.find_element(*MainPage.password1).send_keys("123456")
+    driver.find_element(*MainPage.authorization).click()
+    driver.execute_script("arguments[0].click();", *MainPage.cabinet_authorization)
+    driver.find_element(*MainPage.exits).click()
+    assert True
