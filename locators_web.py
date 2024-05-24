@@ -7,11 +7,11 @@ class MainPage:
 # name - ввод в поле с именем для регистрации
     name = (By.XPATH, ".//body//form//fieldset[1]//input")
 # email - ввод в поле с email для регистрации/авторизации
-    email1 = (By.XPATH, ".//body//form//fieldset[1]//input")
-    email = (By.XPATH, ".//body//form//fieldset[2]//input")
+    email1 = (By.XPATH, ".//fieldset[1]//input")
+    email = (By.XPATH, ".//fieldset[2]//input")
 # password - ввод в поле с паролем для регистрации/авторизации
-    password = (By.XPATH, ".//body//form//fieldset[3]//input")
-    password1 = (By.XPATH, ".//body//form//fieldset[2]//input")
+    password = (By.XPATH, ".//fieldset[3]//input")
+    password1 = (By.XPATH, ".//fieldset[2]//input")
 # entrance - вход в аккаунт
     entrance = (By.CLASS_NAME, "button_button__33qZ0")
 # entrances - переход войти в аккаунт
@@ -25,9 +25,9 @@ class MainPage:
 # logo - переход на логотип
     logo = (By.CLASS_NAME, "AppHeader_header__logo__2D0X2")
 # sauces - переход к соусам
-    sauces = By.XPATH, ".//body//main//section[1]//div[1]"
+    sauces = By.XPATH, ".//section[1]//div[1]"
 # fillings - переход к начинкам
-    fillings = (By.XPATH, ".//body//main//section[1]//div[3]")
+    fillings = (By.XPATH, ".//section[1]//div[3]")
 # cabinet_authorization - переход в кабинет уже авторизированного пользователя
     cabinet_authorization = (By.LINK_TEXT, "Личный Кабинет")
 # exits - выход
